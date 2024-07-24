@@ -1,0 +1,32 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.container {
+    /* 这里可以添加对容器内容的样式 */
+    height: 100%;
+    /* 仅为示例，可根据需要调整 */
+}
+
+/* 顶部线条样式 */
+.top-line {
+    position: absolute;
+    top: 20%; /* 顶部20%的位置 */
+    left: 0;
+    width: 100%; /* 横跨整个屏幕宽度 */
+    height: 5px; /* 线条高度 */
+    background-color: black; /* 线条颜色，可根据需要调整 */
+}
+
+/* 右部线条样式 */
+.right-line {
+    position: absolute;
+    top: 0;
+    right: 20%; /* 右部80%的位置，即从右边开始计算，占据剩余80%的左侧空间 */
+    height: 100%; /* 线条高度，这里设为100%以贯穿整个屏幕 */
+    width: 5px; /* 线条宽度 */
+    background-color: black; /* 线条颜色，可根据需要调整 */
+}

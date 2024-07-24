@@ -1,0 +1,31 @@
+#movable-component {  
+    width: 100px;  
+    height: 100px;  
+    background-color: lightblue;  
+    position: absolute;  
+    transition: transform 0.5s ease;  
+  }  
+    
+  .position-top {  
+    top: 20px;  
+    left: 50%;  
+    transform: translateX(-50%);  
+  }  
+    
+  .position-bottom {  
+    bottom: 20px;  
+    left: 50%;  
+    transform: translateX(-50%);  
+  }  
+    
+  .position-left {  
+    top: 50%;  
+    left: 20px;  
+    transform: translateY(-50%);  
+  }  
+    
+  .position-right {  
+    top: 50%;  
+    right: 20px;  
+    transform: translateY(-50%);  
+  }
