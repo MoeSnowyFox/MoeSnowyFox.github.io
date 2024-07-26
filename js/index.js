@@ -1,10 +1,21 @@
 const scrollThreshold = 50; // 设置滚动阈值
-const uiList = ['#a', '#b', '#c', '#d'];
-let hashValue = window.location.hash;
-let lastTriggerTime = 0;
-const throttleInterval = 1000; // 3秒
+const uiList = ['#index', '#blog', '#homepage', '#about'];
+const throttleInterval = 0//1000; // 1秒
+let uiPage = {};
+uiPage.index = {
+    block1: {top: 100,left: 250},
+    block2: {top: 100,left: 500},
+    };
+uiPage.blog = {
+    block1: {top: 250,left: 100},
+    block2: {top: 500,left: 100},
+    };
 
 
+    let hashValue = window.location.hash;
+    let lastTriggerTime = 0;
+    
+    
         // 当页面加载完成时执行  
 window.onload = function() { 
           // 检查URL中是否包含#  
@@ -33,12 +44,16 @@ function triggerFunction(deltaY) {
     if (deltaY > 0) {
         console.log('Scrolled down:', deltaY);
         hashValue = window.location.hash;
-        window.location.hash = getNextOrPrevious(hashValue,true) ;
+        hashValue = getNextOrPrevious(hashValue,true) ;
+        window.location.hash = hashValue
+        changeUi(hashValue.slice(1));
 
     } else {
         console.log('Scrolled up:', -deltaY);
         hashValue = window.location.hash;
-        window.location.hash = getNextOrPrevious(hashValue, false);
+        hashValue = getNextOrPrevious(hashValue,false) ;
+        window.location.hash = hashValue
+        changeUi(hashValue.slice(1));
 
     }
 }
@@ -57,5 +72,54 @@ function getNextOrPrevious(current, direction) {
   } 
 }
 
-// 示例列表
 
+
+function changeUi(uiObjName) {
+    const targetUi = uiPage[uiObjName];
+    console.log(targetUi);
+    if (!targetUi) {
+        console.error(`object：${uiObjName}121does not exist.`);
+        return;
+    }
+    moveObj(targetUi);
+    for (const blockId in targetUi) {
+        const targetPosition = targetUi[blockId];
+        console.log(targetPosition);
+        console.log(blockId);
+        moveObj(blockId, targetPosition);
+    }
+}
+
+
+
+function moveObj(blockId, targetPosition) {
+    const block = document.getElementById(blockId);
+    if (!block) {
+        console.error(`Block with id ${blockId} does not exist.`);
+        return;
+    }
+
+    const currentTop = parseInt(block.style.top) || 0;
+    const currentLeft = parseInt(block.style.left) || 0;
+
+    const targetTop = targetPosition.top;
+    const targetLeft = targetPosition.left;
+
+    const stepSize = 10; // Number of pixels to move per animation frame
+
+    function animate(currentTop, currentLeft) {
+        const newTop = currentTop + (targetTop > currentTop ? stepSize : -stepSize);
+        const newLeft = currentLeft + (targetLeft > currentLeft ? stepSize : -stepSize);
+
+        block.style.top = `${newTop}px`;
+        block.style.left = `${newLeft}px`;
+
+        // Continue the animation if the new position is not the target position
+        if ((targetTop > currentTop ? newTop < targetTop : newTop > targetTop) ||
+            (targetLeft > currentLeft ? newLeft < targetLeft : newLeft > targetLeft)) {
+            requestAnimationFrame(() => animate(newTop, newLeft));
+        }
+    }
+
+    animate(currentTop, currentLeft);
+}
